@@ -1,3 +1,6 @@
+from collectables_manager import CollectablesManager
+
+
 import arcade, time
 from modules import *
 
@@ -18,6 +21,10 @@ class GameEngine(arcade.Window):
         
         # Create player
         self.player = Player(100, 100)
+        self.player_sprite = None
+
+        # Create Collection
+        self.collection_manager = CollectablesManager()
 
         arcade.start_render()
 
@@ -30,6 +37,8 @@ class GameEngine(arcade.Window):
         self.clear()
         self.draw_background()
         self.draw_player()
+
+        self.collection_manager.draw_collectables(arcade)
         
     def draw_background(self):
         arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
@@ -46,6 +55,13 @@ class GameEngine(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
+        # TODO: Player_sprite will be handled by Player class
+        player_sprite = arcade.Sprite()
+        player_sprite.center_x = self.player.x
+        player_sprite.center_y = self.player.y
+        player_sprite.width = 8
+        player_sprite.height = 8
+        self.collection_manager.check_for_player_collision(arcade, player_sprite)
         self.player.move_character_by_velocity(delta_time)
 
     def on_key_press(self, key, key_modifiers):
