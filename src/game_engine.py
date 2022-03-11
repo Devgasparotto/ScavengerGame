@@ -18,7 +18,7 @@ class GameEngine(arcade.Window):
         
         # Create player
         self.player = Player(100, 100)
-        self.sprite_for_player = PlayerSprite("images/pete-grin.png", 0.2, self.player)
+        self.sprite_for_player = PlayerSprite("images/player.png", 0.2, self.player)
 
         arcade.start_render()
 
