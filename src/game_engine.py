@@ -40,14 +40,13 @@ class GameEngine(arcade.Window):
 
         arcade.draw_rectangle_filled(self.player.x, self.player.y, 8, 8, arcade.color.BLUE)
         
-        
     def on_update(self, delta_time):
         """
         All the logic to move, and the game logic goes here.
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        pass
+        self.player.move_character_by_velocity(delta_time)
 
     def on_key_press(self, key, key_modifiers):
         """
@@ -56,23 +55,13 @@ class GameEngine(arcade.Window):
         For a full list of keys, see:
         http://arcade.academy/arcade.key.html
         """
-        self.keyboard_handler.handle_character_movement(key, self.player)
-
+        self.keyboard_handler.handle_character_movement(key, self.player, pressed = True)
 
     def on_key_release(self, key, key_modifiers):
         """
         Called whenever the user lets off a previously pressed key.
         """
-        if key == arcade.key.A: # green
-            self.green_is_pressed = False
-        if key == arcade.key.S:
-            self.red_is_pressed = False
-        if key == arcade.key.D:
-            self.yellow_is_pressed = False
-        if key == arcade.key.F:
-            self.blue_is_pressed = False
-        if key == arcade.key.G:
-            self.orange_is_pressed = False
+        self.keyboard_handler.handle_character_movement(key, self.player, pressed = False)
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         """
