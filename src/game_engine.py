@@ -5,20 +5,24 @@ import arcade, time
 from modules import *
 
 MUSIC_VOLUME = 0.5
+TILE_SCALING = 0.5
 
 class GameEngine(arcade.Window):
     def __init__(self, width, height, title):
         self.x, self.y = width,height
+        
         super().__init__(width, height, title)
+        
         arcade.set_background_color(arcade.color.AMAZON)
         self.keyboard_handler = KeyboardHandler()
-
+        self.player_sprite_list = arcade.SpriteList()
         self.player = None
         self.collectables_manager = None
     
+        #self.tile_map = None
+
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
-        # Create your sprites and sprite lists here
         
         # Create player
         
@@ -28,7 +32,27 @@ class GameEngine(arcade.Window):
         self.collectables_manager = CollectablesManager()
         self.most_recent_reward = None
 
+        self.sprite_for_player = PlayerSprite("images/player.png", 0.2, self.player)
         arcade.start_render()
+
+        map_name = ":resources:tiled_maps/map.json"
+
+        #map_name = ":resources:tiled_maps/map1.json"
+
+        #map_name = ":resources:tiled_maps/map1.json"
+
+        # map_name = "map1.tsj"
+
+        layer_options = {
+            "Platforms": {
+                "use_spatial_hash": True,
+            },
+        }
+
+        # # Read in the tiled map
+        self.tile_map = arcade.load_tilemap(map_name, TILE_SCALING, layer_options)
+
+        self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
     def on_draw(self):
         """
@@ -40,7 +64,6 @@ class GameEngine(arcade.Window):
         self.draw_background()
         self.draw_player()
 
-        #self.collectables_manager.collectables_list.draw()
         self.collectables_manager.draw_collectables(arcade)
         self.draw_reward()
         
@@ -60,7 +83,12 @@ class GameEngine(arcade.Window):
     def draw_player(self):
         # TODO: To move player size into player class
 
-        arcade.draw_rectangle_filled(self.player.x, self.player.y, 8, 8, arcade.color.BLUE)
+        #arcade.draw_rectangle_filled(self.player.x, self.player.y, 8, 8, arcade.color.BLUE)
+        self.player.draw(self.sprite_for_player)
+        
+        
+    def draw_background(self):
+        arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
         
     def on_update(self, delta_time):
         """
@@ -68,6 +96,7 @@ class GameEngine(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
+<<<<<<< HEAD
         # TODO: Player_sprite will be handled by Player class
         player_sprite = arcade.Sprite()
         player_sprite.center_x = self.player.x
@@ -80,6 +109,10 @@ class GameEngine(arcade.Window):
             self.most_recent_reward = reward
 
         self.player.move_character_by_velocity(delta_time)
+=======
+        self.player.update(delta_time, self.sprite_for_player)
+        self.collection_manager.check_for_player_collision(arcade, self.sprite_for_player)
+>>>>>>> main
 
     def on_key_press(self, key, key_modifiers):
         """
