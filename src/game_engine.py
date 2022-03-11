@@ -14,17 +14,19 @@ class GameEngine(arcade.Window):
         self.keyboard_handler = KeyboardHandler()
 
         self.player = None
+        self.collectables_manager = None
     
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
         # Create your sprites and sprite lists here
         
         # Create player
+        
         self.player = Player(100, 100)
-        self.player_sprite = None
 
-        # Create Collection
-        self.collection_manager = CollectablesManager()
+        # Create Collectables
+        self.collectables_manager = CollectablesManager()
+        self.most_recent_reward = None
 
         arcade.start_render()
 
@@ -38,11 +40,22 @@ class GameEngine(arcade.Window):
         self.draw_background()
         self.draw_player()
 
-        self.collection_manager.draw_collectables(arcade)
+        #self.collectables_manager.collectables_list.draw()
+        self.collectables_manager.draw_collectables(arcade)
+        self.draw_reward()
         
     def draw_background(self):
         arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
 
+    def draw_reward(self):
+        if self.most_recent_reward and self.most_recent_reward.lifetime > 0:
+            arcade.draw_text(self.most_recent_reward.get_reward_message(),
+                            100,
+                            100,
+                            arcade.color.BLACK,
+                            30,
+                            font_name="Kenney Pixel")
+            self.most_recent_reward.lifetime -= 0.1
 
     def draw_player(self):
         # TODO: To move player size into player class
@@ -61,7 +74,11 @@ class GameEngine(arcade.Window):
         player_sprite.center_y = self.player.y
         player_sprite.width = 8
         player_sprite.height = 8
-        self.collection_manager.check_for_player_collision(arcade, player_sprite)
+
+        reward = self.collectables_manager.check_for_player_collision(arcade, player_sprite)
+        if reward is not None:
+            self.most_recent_reward = reward
+
         self.player.move_character_by_velocity(delta_time)
 
     def on_key_press(self, key, key_modifiers):
