@@ -1,4 +1,3 @@
-from player import Player
 from collectables_manager import CollectablesManager
 
 
