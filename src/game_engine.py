@@ -5,19 +5,25 @@ import arcade, time
 from modules import *
 
 MUSIC_VOLUME = 0.5
+TILE_SCALING = 0.5
+
 
 class GameEngine(arcade.Window):
     def __init__(self, width, height, title):
         self.x, self.y = width,height
+        
         super().__init__(width, height, title)
+        
+
         arcade.set_background_color(arcade.color.AMAZON)
         self.keyboard_handler = KeyboardHandler()
         self.player_sprite_list = arcade.SpriteList()
         self.player = None
+        #self.tile_map = None
+
     
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
-        # Create your sprites and sprite lists here
         
         # Create player
         self.player = Player(100, 100)
@@ -25,6 +31,31 @@ class GameEngine(arcade.Window):
 
         self.collection_manager = CollectablesManager()
         arcade.start_render()
+
+        map_name = ":resources:tiled_maps/map.json"
+
+        layer_options = {
+            "Platforms": {
+                "use_spatial_hash": True,
+            },
+        }
+
+        # Read in the tiled map
+        self.tile_map = arcade.load_tilemap(map_name, TILE_SCALING, layer_options)
+
+        # Initialize Scene with our TileMap, this will automatically add all layers
+        # from the map as SpriteLists in the scene in the proper order.
+        self.scene = arcade.Scene.from_tilemap(self.tile_map)
+
+        # --- Other stuff
+        # Set the background color
+        # if self.tile_map.background_color:
+        #     arcade.set_background_color(self.tile_map.background_color)
+
+        # # Create the 'physics engine'
+        # self.physics_engine = arcade.PhysicsEnginePlatformer(
+        #     self.player_sprite, gravity_constant=GRAVITY, walls=self.scene["Platforms"]
+        # )
 
     def on_draw(self):
         """
@@ -37,6 +68,9 @@ class GameEngine(arcade.Window):
         self.player.draw(self.sprite_for_player)
         self.collection_manager.draw_collectables(arcade)
 
+        self.draw_player()
+        # Draw our Scene
+        self.scene.draw()
         
     def draw_background(self):
         arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
