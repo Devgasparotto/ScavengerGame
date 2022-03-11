@@ -78,7 +78,7 @@ class GameEngine(arcade.Window):
                             arcade.color.BLACK,
                             30,
                             font_name="Kenney Pixel")
-            self.most_recent_reward.lifetime -= 0.1
+            self.most_recent_reward.lifetime -= 0.05
 
     def draw_player(self):
         # TODO: To move player size into player class
@@ -96,21 +96,12 @@ class GameEngine(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        # TODO: Player_sprite will be handled by Player class
-        # player_sprite = arcade.Sprite()
-        # player_sprite.center_x = self.player.x
-        # player_sprite.center_y = self.player.y
-        # player_sprite.width = 8
-        # player_sprite.height = 8
 
-        reward = self.collectables_manager.check_for_player_collision(arcade, player_sprite)
+        reward = self.collectables_manager.check_for_player_collision(arcade, self.sprite_for_player)
         if reward is not None:
             self.most_recent_reward = reward
 
-        #self.player.move_character_by_velocity(delta_time)
-
         self.player.update(delta_time, self.sprite_for_player)
-        self.collection_manager.check_for_player_collision(arcade, self.sprite_for_player)
 
     def on_key_press(self, key, key_modifiers):
         """
