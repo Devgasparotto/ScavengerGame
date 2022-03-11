@@ -31,7 +31,7 @@ class GameEngine(arcade.Window):
 
         map_name = ":resources:tiled_maps/map.json"
 
-        #map_name = ":resources:tiled_maps/map1.json"
+        # map_name = "map1.tsj"
 
         layer_options = {
             "Platforms": {
@@ -39,7 +39,7 @@ class GameEngine(arcade.Window):
             },
         }
 
-        # Read in the tiled map
+        # # Read in the tiled map
         self.tile_map = arcade.load_tilemap(map_name, TILE_SCALING, layer_options)
 
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
