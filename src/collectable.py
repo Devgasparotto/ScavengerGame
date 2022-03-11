@@ -3,8 +3,8 @@ from reward import Reward
 import arcade
 
 class Collectable(arcade.Sprite):
-    def __init__(self, collectable_creation_input):
-        arcade.Sprite.__init__(self)
+    def __init__(self, image, scale, collectable_creation_input):
+        super().__init__(image, scale)
         self.center_x = collectable_creation_input.x
         self.center_y = collectable_creation_input.y
         self.height = collectable_creation_input.size

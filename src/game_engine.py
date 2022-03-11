@@ -18,6 +18,7 @@ class GameEngine(arcade.Window):
         self.player_sprite_list = arcade.SpriteList()
         self.player = None
         self.collectables_manager = None
+        self.background = BGManager('images/map.png')
     
         #self.tile_map = None
 
@@ -35,7 +36,7 @@ class GameEngine(arcade.Window):
         self.sprite_for_player = PlayerSprite("images/player.png", 0.2, self.player)
         arcade.start_render()
 
-        map_name = ":resources:tiled_maps/map.json"
+        # map_name = ":resources:tiled_maps/map.json"
 
         #map_name = ":resources:tiled_maps/map1.json"
 
@@ -48,11 +49,12 @@ class GameEngine(arcade.Window):
                 "use_spatial_hash": True,
             },
         }
-
+        # Creates new background
+        self.background = self.background.load_bg()
         # # Read in the tiled map
-        self.tile_map = arcade.load_tilemap(map_name, TILE_SCALING, layer_options)
+        # self.tile_map = arcade.load_tilemap(map_name, TILE_SCALING, layer_options)
 
-        self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        # self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
     def on_draw(self):
         """
@@ -68,7 +70,9 @@ class GameEngine(arcade.Window):
         self.draw_reward()
         
     def draw_background(self):
-        arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
+        arcade.draw_lrwh_rectangle_textured(0, 0,
+                                            self.x, self.y,
+                                            self.background)
 
     def draw_reward(self):
         if self.most_recent_reward and self.most_recent_reward.lifetime > 0:
@@ -87,8 +91,8 @@ class GameEngine(arcade.Window):
         self.player.draw(self.sprite_for_player)
         
         
-    def draw_background(self):
-        arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
+    # def draw_background(self):
+    #     arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
         
     def on_update(self, delta_time):
         """

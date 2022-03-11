@@ -1,6 +1,6 @@
 from collectable import Collectable, CollectableCreationInput
 
-import arcade
+import arcade, random
 import logging
 
 class CollectablesManager():
@@ -30,18 +30,18 @@ class CollectablesManager():
     def __initialize_collectables(self):
         logging.info("Initializing Collectables")
         collectable_input1 = CollectableCreationInput()
-        collectable_input1.x = 200
-        collectable_input1.y = 200
+        collectable_input1.x = random.randint(0,1000)
+        collectable_input1.y = random.randint(0,1000)
         collectable_input1.size = 25
         collectable_input1.name = "Gasoline"
-        collectable1 = Collectable(collectable_input1)
+        collectable1 = Collectable('images/jerry_can.png',1,collectable_input1)
         self.collectables_list.append(collectable1)
         
 
         collectable_input2 = CollectableCreationInput()
-        collectable_input2.x = 400
-        collectable_input2.y = 400
+        collectable_input2.x = random.randint(0,1000)
+        collectable_input2.y = random.randint(0,1000)
         collectable_input2.size = 25
         collectable_input2.name = "Gasoline"
-        collectable2 = Collectable(collectable_input2)
+        collectable2 = Collectable('images/jerry_can.png',1,collectable_input2)
         self.collectables_list.append(collectable2)
