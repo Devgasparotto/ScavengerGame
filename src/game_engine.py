@@ -29,10 +29,9 @@ class GameEngine(arcade.Window):
         self.collection_manager = CollectablesManager()
         arcade.start_render()
 
-        #map_name = ":resources:tiled_maps/map.json"
+        map_name = ":resources:tiled_maps/map.json"
 
-        map_name = ":resources:tiled_maps/map1.json"
-
+        #map_name = ":resources:tiled_maps/map1.json"
 
         # map_name = "map1.tsj"
 
