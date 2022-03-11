@@ -1,10 +1,16 @@
 from reward import Reward
+import arcade
 
-class Collectable():
+class Collectable(arcade.Sprite):
     def __init__(self, collectable_creation_input):
-        self.x = collectable_creation_input.x
-        self.y = collectable_creation_input.y
-        self.size = collectable_creation_input.size
+        arcade.Sprite.__init__(self)
+        #self.x = collectable_creation_input.x
+        self.center_x = collectable_creation_input.x
+        #self.y = collectable_creation_input.y
+        self.center_y = collectable_creation_input.y
+        #self.size = collectable_creation_input.size
+        self.height = collectable_creation_input.size
+        self.width = collectable_creation_input.size
         self.is_collected = collectable_creation_input.is_collected
 
         self.reward = Reward()
@@ -12,6 +18,7 @@ class Collectable():
 
     def collect_item(self):
         self.is_collected = True
+        
         return self.__get_reward()
 
     def __get_reward(self):

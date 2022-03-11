@@ -25,6 +25,7 @@ class GameEngine(arcade.Window):
         
         # Create player
         self.player = Player(100, 100)
+        self.player_sprite = None
 
         # Create Collection
         self.collection_manager = CollectablesManager()
@@ -59,7 +60,13 @@ class GameEngine(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        pass
+        # TODO: Player_sprite will be handled by Player class
+        player_sprite = arcade.Sprite()
+        player_sprite.center_x = self.player.x
+        player_sprite.center_y = self.player.y
+        player_sprite.width = 8
+        player_sprite.height = 8
+        self.collection_manager.check_for_player_collision(arcade, player_sprite)
 
     def on_key_press(self, key, key_modifiers):
         """
