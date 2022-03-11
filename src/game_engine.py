@@ -1,4 +1,5 @@
 from player import Player
+from collectables_manager import CollectablesManager
 
 import arcade, time
 
@@ -25,6 +26,9 @@ class GameEngine(arcade.Window):
         # Create player
         self.player = Player(100, 100)
 
+        # Create Collection
+        self.collection_manager = CollectablesManager()
+
         arcade.start_render()
 
     def on_draw(self):
@@ -36,6 +40,8 @@ class GameEngine(arcade.Window):
         self.clear()
         self.draw_background()
         self.draw_player()
+
+        self.collection_manager.draw_collectables(arcade)
         
     def draw_background(self):
         arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
@@ -45,7 +51,7 @@ class GameEngine(arcade.Window):
         # TODO: To move player size into player class
 
         arcade.draw_rectangle_filled(self.player.x, self.player.y, 8, 8, arcade.color.BLUE)
-        
+
         
     def on_update(self, delta_time):
         """
