@@ -30,10 +30,9 @@ class GameEngine(arcade.Window):
 
         arcade.start_render()
 
-        #map_name = ":resources:tiled_maps/map.json"
+        map_name = ":resources:tiled_maps/map.json"
 
-        map_name = ":resources:tiled_maps/map1.json"
-
+        #map_name = ":resources:tiled_maps/map1.json"
 
         layer_options = {
             "Platforms": {
