@@ -1,3 +1,4 @@
+
 class Player():
 
     def __init__(self, x, y):
@@ -34,3 +35,10 @@ class Player():
     
     def move_right(self):
         self.set_velocity_x(self.speed * 1)
+    
+    def draw(self, sprite_object):
+        sprite_object.draw()
+
+    def update(self, delta_time, sprite_object):
+        self.move_character_by_velocity(delta_time)
+        sprite_object.set_position(self.x, self.y)

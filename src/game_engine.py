@@ -9,7 +9,7 @@ class GameEngine(arcade.Window):
         super().__init__(width, height, title)
         arcade.set_background_color(arcade.color.AMAZON)
         self.keyboard_handler = KeyboardHandler()
-
+        self.player_sprite_list = arcade.SpriteList()
         self.player = None
     
     def setup(self):
@@ -18,6 +18,7 @@ class GameEngine(arcade.Window):
         
         # Create player
         self.player = Player(100, 100)
+        self.sprite_for_player = PlayerSprite("images/pete-grin.png", 0.2, self.player)
 
         arcade.start_render()
 
@@ -29,16 +30,10 @@ class GameEngine(arcade.Window):
         # the screen to the background color, and erase what we drew last frame.
         self.clear()
         self.draw_background()
-        self.draw_player()
+        self.player.draw(self.sprite_for_player)
         
     def draw_background(self):
         arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
-
-
-    def draw_player(self):
-        # TODO: To move player size into player class
-
-        arcade.draw_rectangle_filled(self.player.x, self.player.y, 8, 8, arcade.color.BLUE)
         
     def on_update(self, delta_time):
         """
@@ -46,7 +41,7 @@ class GameEngine(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        self.player.move_character_by_velocity(delta_time)
+        self.player.update(delta_time, self.sprite_for_player)
 
     def on_key_press(self, key, key_modifiers):
         """
