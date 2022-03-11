@@ -1,3 +1,5 @@
+from player import Player
+
 import arcade, time
 
 MUSIC_VOLUME = 0.5
@@ -13,11 +15,16 @@ class GameEngine(arcade.Window):
         self.yellow_is_pressed = False
         self.blue_is_pressed = False
         self.orange_is_pressed = False
+
+        self.player = None
     
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
         # Create your sprites and sprite lists here
         
+        # Create player
+        self.player = Player(100, 100)
+
         arcade.start_render()
 
     def on_draw(self):
@@ -26,12 +33,19 @@ class GameEngine(arcade.Window):
         """
         # This command should happen before we start drawing. It will clear
         # the screen to the background color, and erase what we drew last frame.
+        self.clear()
+        self.draw_background()
+        self.draw_player()
         
-        self.draw_runway()
+    def draw_background(self):
+        arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
+
+
+    def draw_player(self):
+        # TODO: To move player size into player class
+
+        arcade.draw_rectangle_filled(self.player.x, self.player.y, 8, 8, arcade.color.BLUE)
         
-    def draw_runway(self):
-        arcade.draw_rectangle_filled(self.x/2, self.y/2, self.x/1.2, self.y, arcade.color.RED)
-        #arcade.draw_rectangle_filled(self.x/2, self.y/2, self.x/1.2, self.y, arcade.color.RED)
         
     def on_update(self, delta_time):
         """
@@ -50,16 +64,16 @@ class GameEngine(arcade.Window):
         """
         pass
         
-        if key == arcade.key.A:
-            self.green_is_pressed = True
+        # TODO: Add room border logic
+        # TODO: Add hold move logic
+        if key == arcade.key.W:
+            self.player.move_up()
         if key == arcade.key.S:
-            self.red_is_pressed = True
+            self.player.move_down()
+        if key == arcade.key.A:
+            self.player.move_left()
         if key == arcade.key.D:
-            self.yellow_is_pressed = True
-        if key == arcade.key.F:
-            self.blue_is_pressed = True
-        if key == arcade.key.G:
-            self.orange_is_pressed = True    
+            self.player.move_right()
 
     def on_key_release(self, key, key_modifiers):
         """
