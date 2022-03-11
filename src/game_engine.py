@@ -96,23 +96,21 @@ class GameEngine(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-<<<<<<< HEAD
         # TODO: Player_sprite will be handled by Player class
-        player_sprite = arcade.Sprite()
-        player_sprite.center_x = self.player.x
-        player_sprite.center_y = self.player.y
-        player_sprite.width = 8
-        player_sprite.height = 8
+        # player_sprite = arcade.Sprite()
+        # player_sprite.center_x = self.player.x
+        # player_sprite.center_y = self.player.y
+        # player_sprite.width = 8
+        # player_sprite.height = 8
 
         reward = self.collectables_manager.check_for_player_collision(arcade, player_sprite)
         if reward is not None:
             self.most_recent_reward = reward
 
-        self.player.move_character_by_velocity(delta_time)
-=======
+        #self.player.move_character_by_velocity(delta_time)
+
         self.player.update(delta_time, self.sprite_for_player)
         self.collection_manager.check_for_player_collision(arcade, self.sprite_for_player)
->>>>>>> main
 
     def on_key_press(self, key, key_modifiers):
         """
