@@ -1,6 +1,5 @@
-from player import Player
-
 import arcade, time
+from modules import *
 
 MUSIC_VOLUME = 0.5
 
@@ -9,12 +8,7 @@ class GameEngine(arcade.Window):
         self.x, self.y = width,height
         super().__init__(width, height, title)
         arcade.set_background_color(arcade.color.AMAZON)
-        
-        self.green_is_pressed = False
-        self.red_is_pressed = False
-        self.yellow_is_pressed = False
-        self.blue_is_pressed = False
-        self.orange_is_pressed = False
+        self.keyboard_handler = KeyboardHandler()
 
         self.player = None
     
@@ -62,18 +56,8 @@ class GameEngine(arcade.Window):
         For a full list of keys, see:
         http://arcade.academy/arcade.key.html
         """
-        pass
-        
-        # TODO: Add room border logic
-        # TODO: Add hold move logic
-        if key == arcade.key.W:
-            self.player.move_up()
-        if key == arcade.key.S:
-            self.player.move_down()
-        if key == arcade.key.A:
-            self.player.move_left()
-        if key == arcade.key.D:
-            self.player.move_right()
+        self.keyboard_handler.handle_character_movement(key, self.player)
+
 
     def on_key_release(self, key, key_modifiers):
         """
