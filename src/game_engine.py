@@ -1,7 +1,9 @@
 from player import Player
 from collectables_manager import CollectablesManager
 
+
 import arcade, time
+from modules import *
 
 MUSIC_VOLUME = 0.5
 
@@ -10,12 +12,7 @@ class GameEngine(arcade.Window):
         self.x, self.y = width,height
         super().__init__(width, height, title)
         arcade.set_background_color(arcade.color.AMAZON)
-        
-        self.green_is_pressed = False
-        self.red_is_pressed = False
-        self.yellow_is_pressed = False
-        self.blue_is_pressed = False
-        self.orange_is_pressed = False
+        self.keyboard_handler = KeyboardHandler()
 
         self.player = None
     
@@ -52,7 +49,6 @@ class GameEngine(arcade.Window):
         # TODO: To move player size into player class
 
         arcade.draw_rectangle_filled(self.player.x, self.player.y, 8, 8, arcade.color.BLUE)
-
         
     def on_update(self, delta_time):
         """
@@ -67,6 +63,7 @@ class GameEngine(arcade.Window):
         player_sprite.width = 8
         player_sprite.height = 8
         self.collection_manager.check_for_player_collision(arcade, player_sprite)
+        self.player.move_character_by_velocity(delta_time)
 
     def on_key_press(self, key, key_modifiers):
         """
@@ -75,33 +72,13 @@ class GameEngine(arcade.Window):
         For a full list of keys, see:
         http://arcade.academy/arcade.key.html
         """
-        pass
-        
-        # TODO: Add room border logic
-        # TODO: Add hold move logic
-        if key == arcade.key.W:
-            self.player.move_up()
-        if key == arcade.key.S:
-            self.player.move_down()
-        if key == arcade.key.A:
-            self.player.move_left()
-        if key == arcade.key.D:
-            self.player.move_right()
+        self.keyboard_handler.handle_character_movement(key, self.player, pressed = True)
 
     def on_key_release(self, key, key_modifiers):
         """
         Called whenever the user lets off a previously pressed key.
         """
-        if key == arcade.key.A: # green
-            self.green_is_pressed = False
-        if key == arcade.key.S:
-            self.red_is_pressed = False
-        if key == arcade.key.D:
-            self.yellow_is_pressed = False
-        if key == arcade.key.F:
-            self.blue_is_pressed = False
-        if key == arcade.key.G:
-            self.orange_is_pressed = False
+        self.keyboard_handler.handle_character_movement(key, self.player, pressed = False)
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         """
