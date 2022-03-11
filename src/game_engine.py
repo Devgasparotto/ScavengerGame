@@ -1,3 +1,6 @@
+from collectables_manager import CollectablesManager
+
+
 import arcade, time
 from modules import *
 
@@ -20,6 +23,7 @@ class GameEngine(arcade.Window):
         self.player = Player(100, 100)
         self.sprite_for_player = PlayerSprite("images/player.png", 0.2, self.player)
 
+        self.collection_manager = CollectablesManager()
         arcade.start_render()
 
     def on_draw(self):
@@ -31,6 +35,8 @@ class GameEngine(arcade.Window):
         self.clear()
         self.draw_background()
         self.player.draw(self.sprite_for_player)
+        self.collection_manager.draw_collectables(arcade)
+
         
     def draw_background(self):
         arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
@@ -42,6 +48,7 @@ class GameEngine(arcade.Window):
         need it.
         """
         self.player.update(delta_time, self.sprite_for_player)
+        self.collection_manager.check_for_player_collision(arcade, self.sprite_for_player)
 
     def on_key_press(self, key, key_modifiers):
         """
