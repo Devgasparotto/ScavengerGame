@@ -56,7 +56,6 @@ class GameEngine(arcade.Window):
         self.draw_background()
         self.player.draw(self.sprite_for_player)
         self.collection_manager.draw_collectables(arcade)
-
         
     def draw_background(self):
         arcade.draw_rectangle_filled(self.x, 0, 0, self.y, arcade.color.AMAZON)
