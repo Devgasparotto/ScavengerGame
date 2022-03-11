@@ -66,7 +66,7 @@ class GameEngine(arcade.Window):
         self.draw_background()
         self.draw_player()
 
-        self.collectables_manager.draw_collectables(arcade)
+        self.collectables_manager.collectables_list.draw()
         self.draw_reward()
         
     def draw_background(self):

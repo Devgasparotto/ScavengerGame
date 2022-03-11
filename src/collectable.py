@@ -16,6 +16,7 @@ class Collectable(arcade.Sprite):
 
     def collect_item(self):
         self.is_collected = True
+        self.visible = False
         
         return self.__get_reward()
 
